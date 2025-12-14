@@ -1,0 +1,118 @@
+/* src/App.css */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  background: #fde7f2;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  position: relative;
+}
+
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  background-image: url("/cute-bg.png"); /* later: drop in your own image */
+  background-size: cover;
+  background-position: center;
+  opacity: 0.18;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.card {
+  width: min(420px, 100%);
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 24px;
+  padding: 24px 20px 20px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(10px);
+}
+
+.title {
+  margin: 0 0 16px;
+  text-align: center;
+  font-size: 1.5rem;
+  text-transform: lowercase;
+}
+
+.section {
+  margin-bottom: 16px;
+}
+
+.section h2,
+.section h3 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  text-transform: lowercase;
+  letter-spacing: 0.03em;
+  opacity: 0.7;
+}
+
+.note-input {
+  width: 100%;
+  min-height: 120px;
+  border-radius: 16px;
+  border: 1px solid #f4c7da;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  resize: vertical;
+  outline: none;
+  background: #fff7fb;
+}
+
+.note-input:focus {
+  border-color: #f08bb6;
+  box-shadow: 0 0 0 2px #f8c1dd;
+}
+
+.moods {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.moods > div {
+  flex: 1;
+}
+
+select {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 999px;
+  border: 1px solid #f4c7da;
+  background: #fff7fb;
+  font-size: 1.1rem;
+}
+
+.save-btn {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: 999px;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: lowercase;
+  background: linear-gradient(135deg, #ff7cb3, #ff9ad5);
+  color: white;
+  box-shadow: 0 8px 20px rgba(255, 124, 179, 0.45);
+  cursor: pointer;
+}
+
+.save-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 12px rgba(255, 124, 179, 0.4);
+}
