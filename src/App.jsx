@@ -5,10 +5,10 @@ import "./App.css";
 import { db } from "./firebase";
 import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
 
-const ROOM_ID = "our-little-space"; // can be any id you like
+const ROOM_ID = "our-little-space";
 
 function App() {
-  const [note, setNote] = useState("Today I’m grateful for you 💕");
+  const [note, setNote] = useState("Today I'm grateful for you 💕");
   const [myMood, setMyMood] = useState("😊");
   const [theirMood, setTheirMood] = useState("😎");
   const [loading, setLoading] = useState(true);
