@@ -3,22 +3,21 @@ import { useState, useEffect } from "react";
 import "./App.css";
 
 import { db } from "./firebase";
-import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, setDoc, updateDoc, increment } from "firebase/firestore";
 
 const ROOM_ID = "our-little-space";
 
 function App() {
+  const [counter, setCounter] = useState(0);
   const [note, setNote] = useState("Today I'm grateful for you 💕");
   const [myMood, setMyMood] = useState("😊");
   const [theirMood, setTheirMood] = useState("😎");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
-  // Subscribe to Firestore so both of you see the same data
   useEffect(() => {
     const roomRef = doc(db, "rooms", ROOM_ID);
 
-    // One-time create doc if it doesn't exist yet
     getDoc(roomRef).then((snap) => {
       if (!snap.exists()) {
         setDoc(roomRef, {
@@ -26,6 +25,7 @@ function App() {
           myMood,
           theirMood,
           createdAt: Date.now(),
+          counter: 0,
         });
       }
     });
@@ -37,6 +37,7 @@ function App() {
         if (typeof data.note === "string") setNote(data.note);
         if (typeof data.myMood === "string") setMyMood(data.myMood);
         if (typeof data.theirMood === "string") setTheirMood(data.theirMood);
+        if (typeof data.counter === "number") setCounter(data.counter);
       }
       setLoading(false);
     });
@@ -66,6 +67,20 @@ function App() {
     }
   };
 
+  const handlePlusOne = async () => {
+  try {
+    const roomRef = doc(db, "rooms", ROOM_ID);
+    await updateDoc(roomRef, {
+      counter: increment(1),
+      updatedAt: Date.now(),
+    });
+  } catch (err) {
+    console.error(err);
+    alert("Couldn’t update counter.");
+  }
+};
+
+
   return (
     <div className="app">
       <div className="bg-layer" />
@@ -84,37 +99,20 @@ function App() {
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
               />
-            </section>
 
-            <section className="section moods">
-              <div>
-                <h3>my mood</h3>
-                <select
-                  value={myMood}
-                  onChange={(e) => setMyMood(e.target.value)}
-                >
-                  <option>😊</option>
-                  <option>🥹</option>
-                  <option>😴</option>
-                  <option>😡</option>
-                  <option>🤪</option>
-                </select>
-              </div>
-              <div>
-                <h3>your mood</h3>
-                <select
-                  value={theirMood}
-                  onChange={(e) => setTheirMood(e.target.value)}
-                >
-                  <option>😎</option>
-                  <option>🤓</option>
-                  <option>🥰</option>
-                  <option>😵‍💫</option>
-                  <option>🫠</option>
-                </select>
-              </div>
             </section>
- 
+                  <section className="section">
+          <h2>our poop counter 💩</h2>
+
+          <div className="counter-box">
+            <div className="counter-number">{counter}</div>
+
+            <button className="counter-btn" onClick={handlePlusOne}>
+              +1 💗
+            </button>
+          </div>
+        </section>
+
             <button
               className="save-btn"
               onClick={handleSave}
@@ -126,6 +124,7 @@ function App() {
         )}
       </div>
     </div>
+    
   );
 }
 
